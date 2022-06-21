@@ -4,6 +4,12 @@ import ShowGrid from '../components/shows/ShowGrid';
 import ActorGrid from '../components/actors/ActorGrid';
 import { apiUrl } from '../misc/config';
 import { useLastQuery } from '../misc/custom-hooks';
+import {
+  RadioInputsWrapper,
+  SearchButtonWrapper,
+  SearchInput,
+} from './Home.styled';
+import CustomRadio from '../components/CustomRadio';
 
 const Home = () => {
   const [input, setInput] = useLastQuery();
@@ -54,42 +60,41 @@ const Home = () => {
 
   return (
     <MainPageLayout>
-      <div>
-        <input
-          type="text"
-          onChange={onInputChange}
-          onKeyDown={onEnter}
-          value={input}
-        />
+      <SearchInput
+        type="text"
+        onChange={onInputChange}
+        onKeyDown={onEnter}
+        value={input}
+      />
+
+      <RadioInputsWrapper>
+        <div>
+          <CustomRadio
+            label="Shows"
+            id="shows-search"
+            value="shows"
+            checked={isShowsSearch}
+            onChange={onRadioChange}
+          />
+        </div>
+
+        <div>
+          <CustomRadio
+            label="Actors"
+            id="actors-search"
+            value="people"
+            checked={!isShowsSearch}
+            onChange={onRadioChange}
+          />
+        </div>
+      </RadioInputsWrapper>
+
+      <SearchButtonWrapper>
         <button type="button" onClick={onClickButton}>
           Search
         </button>
-
-        <div>
-          <label htmlFor="shows-search">
-            Shows
-            <input
-              id="shows-search"
-              type="radio"
-              value="shows"
-              checked={isShowsSearch}
-              onChange={onRadioChange}
-            />
-          </label>
-
-          <label htmlFor="actors-search">
-            Actors
-            <input
-              id="actors-search"
-              type="radio"
-              value="people"
-              checked={!isShowsSearch}
-              onChange={onRadioChange}
-            />
-          </label>
-        </div>
-        {displayResults()}
-      </div>
+      </SearchButtonWrapper>
+      {displayResults()}
     </MainPageLayout>
   );
 };
